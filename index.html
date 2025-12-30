@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Saish ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Pacifico&family=Baloo+2:wght@400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- GLOBAL STYLES --- */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Nunito', sans-serif;
+            background-color: #fff0f3;
+            color: #4a4a4a;
+            overflow: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Pacifico', cursive;
+            color: #d63384;
+        }
+
+        /* --- NAVIGATION / LAYOUT --- */
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none; 
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            box-sizing: border-box;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            pointer-events: none; 
+            z-index: 1; 
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+            pointer-events: auto; 
+            z-index: 100; 
+        }
+
+        /* --- LOCK SCREEN --- */
+        #lock-screen {
+            background: #fff6f9;
+            z-index: 200;
+            pointer-events: auto;
+        }
+
+        .lock-box {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 320px;
+            text-align: center;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .lock-box input {
+            padding: 10px;
+            width: 80%;
+            margin-top: 15px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 1rem;
+            text-align: center;
+            font-family: 'Baloo 2', cursive;
+        }
+
+        .lock-box button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            border-radius: 15px;
+            border: none;
+            background: #ff8fb1;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            font-family: 'Baloo 2', cursive;
+            transition: background 0.3s;
+        }
+        .lock-box button:hover { background: #ff4d6d; }
+
+        /* --- ENVELOPE STYLES --- */
+        .envelope-container {
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.6s ease;
+        }
+        
+        .envelope {
+            width: 300px;
+            height: 220px; 
+            background: #ff8fa3;
+            position: relative;
+            display: flex;
+            flex-direction: column; 
+            justify-content: center;
+            align-items: center;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover { transform: scale(1.05); }
+
+        .envelope-text {
+            color: white;
+            font-weight: bold;
+            font-family: 'Pacifico';
+            font-size: 1.5rem;
+            margin-bottom: 20px; 
+        }
+        
+        /* --- HEART SHAPE --- */
+        .heart {
+            background-color: #ff4d6d;
+            display: inline-block;
+            height: 30px;
+            width: 30px;
+            position: relative;
+            transform: rotate(-45deg);
+            box-shadow: -2px 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #ff4d6d;
+            border-radius: 50%;
+            height: 30px;
+            width: 30px;
+            position: absolute;
+        }
+        .heart:before { top: -15px; left: 0; }
+        .heart:after { left: 15px; top: 0; }
+
+        /* --- PHOTOS & TEXT --- */
+        .photo-frame {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            max-width: 90%;
+            max-height: 50vh;
+            transform: rotate(-2deg);
+            margin-bottom: 20px;
+        }
+        
+        .photo-frame img {
+            max-width: 100%;
+            max-height: 40vh;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .memory-text {
+            max-width: 600px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.6);
+            padding: 15px;
+            border-radius: 15px;
+        }
+
+        .next-btn {
+            background-color: #ff4d6d;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 30px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: bold;
+            transition: background 0.3s;
+            position: relative;
+            z-index: 101; 
+        }
+        .next-btn:hover { background-color: #d63384; }
+
+
+        /* --- ANIMATIONS --- */
+        @keyframes floatUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .sticker {
+            width: 120px;
+            animation: float 3s ease-in-out infinite;
+            margin-bottom: 20px;
+        }
+        .love-list { list-style: none; padding: 0; text-align: left; }
+        .love-list li {
+            font-size: 1.2rem;
+            margin: 15px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: floatUp 0.8s forwards;
+        }
+
+        /* --- MUSIC CONTROL (MOVED TO TOP RIGHT) --- */
+        .music-control {
+            position: fixed;
+            top: 20px; /* MOVED TO TOP */
+            right: 20px;
+            background: white;
+            padding: 10px;
+            border-radius: 50px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            z-index: 500; 
+            font-size: 0.8rem;
+            display: none; 
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .letter-content {
+            background: #fff;
+            padding: 30px;
+            max-width: 500px;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            font-family: 'Nunito', sans-serif; 
+            text-align: left;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bg-music" loop>
+        <source src="https://www.bensound.com/bensound-music/bensound-tenderness.mp3" type="audio/mpeg">
+    </audio>
+    <div class="music-control" onclick="toggleMusic()">
+        <span>🎵</span>
+    </div>
+
+    <div id="lock-screen" class="page active">
+        <div class="lock-box">
+            <h2>Hi Saish 🐱💖</h2>
+            <p>Enter our special date</p>
+            <input type="password" id="pass" placeholder="DDMMYYYY">
+            <button onclick="checkPassword()">Unlock 🐾</button>
+            <p class="hint">Hint: Our Special Number 🫣🫣</p>
+        </div>
+    </div>
+
+    <div id="p1" class="page">
+        <div id="envelope-box" class="envelope-container" onclick="nextPage('p2')">
+            <div class="envelope">
+                <span class="envelope-text">Click to Open</span>
+                <div class="heart"></div>
+            </div>
+        </div>
+        <p style="margin-top: 20px; opacity: 0.6; font-size: 1rem;">(A tiny digital gift for you)</p>
+    </div>
+
+    <div id="p2" class="page">
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExcGg2cnpseDFnMm9pZzQwa2huOGNzaDUxaWtldGEzNDY0cWVqN2w3diZlcD12MV9naWZzX3NlYXJjaCZjdD1n/wPnbkEcr2tXiTN0Lmq/giphy.gif" class="sticker" alt="Cute Bear">
+        <h1>Hi Saish.</h1>
+        <p class="memory-text">
+            I made this because a text message didn't feel like enough.<br>
+            This tiny corner of the internet is just for you.<br>
+            No distractions. Just us.<br><br>
+            (Turn the music on, top right, if you haven't yet.)
+        </p>
+        <button class="next-btn" onclick="nextPage('p3')">Let's go ➜</button>
+    </div>
+
+    <div id="p3" class="page">
+        <h2>Remember that night?</h2>
+        <div class="photo-frame">
+            <img src="./assests/1.jpeg" alt="Us at night">
+        </div>
+        <p class="memory-text">
+           The day of our confession, late night where you were sad.<br>
+           Mai apko hasane ke koshish kar raha tha aur bas apko khush karna chahta tha.<br>
+           Fir the confession happened.<br>
+           The line "Hum dono ek dusre ko dhund lete hai" Hayyeeeee 🫴🫴🥹❤️
+        </p>
+        <button class="next-btn" onclick="nextPage('p4')">Next memory ➜</button>
+    </div>
+
+    <div id="p4" class="page">
+        <h2>Interrupting Cat!</h2>
+        <img src="./assests/catu.jpg" style="width: 300px; border-radius: 15px;" alt="Funny Cat">
+        <p class="memory-text">
+            This catu ka purpose is to make you smile.<br>
+            If it does, click the button.
+        </p>
+        <button class="next-btn" onclick="nextPage('p5')">Lets, continue with my feelings ➜</button>
+    </div>
+
+    <div id="p5" class="page">
+        <h2>That special day...</h2>
+        <div class="photo-frame" style="transform: rotate(2deg);">
+            <img src="./assests/3.jpeg" alt="Comfort">
+        </div>
+        <p class="memory-text">
+            Our first “fucky fucky” 😳❤️<br>
+            Still one of my favorite memories ever.<br>
+            The time, the daar, the mood, the thought of being with you so close...<br>
+            Mujhe sab yaad hai like it was yesterday 😳😳🥰
+        </p>
+        <button class="next-btn" onclick="nextPage('p6')">Why I love you ➜</button>
+    </div>
+
+    <div id="p6" class="page">
+        <h2>Things that are unmistakably Saish</h2>
+        <ul class="love-list">
+            <li style="animation-delay: 0.2s">❤️ The way you care for me even when you're annoyed.</li>
+            <li style="animation-delay: 0.5s">❤️ How you love me.</li>
+            <li style="animation-delay: 0.8s">❤️ Your laugh. The real, cute one.</li>
+            <li style="animation-delay: 1.1s">❤️ That you always support me.</li>
+        </ul>
+        <button class="next-btn" onclick="nextPage('p7')">One last thing ➜</button>
+    </div>
+
+    <div id="p7" class="page">
+        <div class="letter-content">
+            <h3>Dear Saish,</h3>
+            <p>
+                I don't say it enough, but you are my favorite person.<br><br>
+                You make me the happiest person alive.<br><br>
+                Thank you for choosing me, Saish.<br><br>
+                Thank you for being my peace, my chaos, and my best friend.<br><br>
+                Thank you for loving me, trusting me, and being mine.<br><br>
+                I can’t wait to make a thousand more memories with you.<br>
+                Happy New Year, my jaanu 🥂❤️<br><br>
+                Forever yours,<br>
+                <b>Swearrr</b>
+            </p>
+        </div>
+        <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOTZrN25rOHNkNno1dnd6bm14N2pqanczYjU2Y2Nmc3BxOHJtZzB1dyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/1JmGiBtqTuehfYxuy9/giphy.gif" style="width: 100px; margin-top: 20px;" alt="Hugs">
+        
+    </div>
+
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("pass").value;
+            if (password === "020307") {
+                const lockScreen = document.getElementById("lock-screen");
+                lockScreen.classList.remove('active'); 
+                lockScreen.style.opacity = '0';
+                
+                setTimeout(() => {
+                    lockScreen.style.display = 'none';
+                    const p1 = document.getElementById("p1");
+                    p1.style.display = 'flex';
+                    setTimeout(() => { p1.classList.add('active'); }, 10);
+                    document.querySelector('.music-control').style.display = 'flex';
+                }, 500); 
+            } else {
+                alert("Wrong password 😼 'Apko kaise nahi pata' 😢😭😭");
+            }
+        }
+
+        function nextPage(pageId) {
+            const current = document.querySelector('.page.active');
+            
+            // Envelope animation
+            if(current.id === "p1") {
+                const envelope = document.getElementById("envelope-box");
+                envelope.style.transform = "scale(3)";
+                envelope.style.opacity = "0";
+            }
+
+            // Immediately make current page unclickable and fade out
+            current.classList.remove('active');
+            current.style.opacity = '0';
+            
+            const next = document.getElementById(pageId);
+            next.style.display = 'flex';
+            
+            setTimeout(() => {
+                next.classList.add('active'); 
+            }, 10);
+
+            setTimeout(() => {
+                current.style.display = 'none';
+            }, 500);
+        }
+        const music = document.getElementById('bg-music');
+        const musicBtn = document.querySelector('.music-control span');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                music.pause();
+                musicBtn.innerText = "🎵";
+            } else {
+                music.play();
+                musicBtn.innerText = "⏸️"; 
+            }
+            isPlaying = !isPlaying;
+        }
+    </script>
+</body>
+</html>
